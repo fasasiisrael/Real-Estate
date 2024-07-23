@@ -2,10 +2,13 @@ import React from 'react'
 import PropertyList from '../components/PropertyList'
 import Footer from '../components/Footer'
 import HeroSection from '../components/HeroSection'
+import { Analytics } from "@vercel/analytics/react"
 
 const HomePage: React.FC = () => {
   return (
+    
     <div className="flex flex-col min-h-screen">
+      <Analytics/>
       <HeroSection />
       <main className="flex-grow">
         <PropertyList />
