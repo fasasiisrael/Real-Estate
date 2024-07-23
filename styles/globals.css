@@ -9,7 +9,8 @@ body {
 }
 
 @keyframes wave {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -21,7 +22,6 @@ body {
   display: inline-block;
   animation: wave 1s infinite;
 }
-
 
 * {
   box-sizing: border-box;

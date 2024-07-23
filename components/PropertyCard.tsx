@@ -1,17 +1,17 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import React from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
 
 interface PropertyCardProps {
-  image: string;
-  name: string;
-  location: string;
-  price: number;
-  listingDate: string;
-  contact: string;
-  rating: number;
-  numReviews: number;
-  id: string;
+  image: string
+  name: string
+  location: string
+  price: number
+  listingDate: string
+  contact: string
+  rating: number
+  numReviews: number
+  id: string
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({
@@ -23,7 +23,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   contact,
   rating,
   numReviews,
-  id
+  id,
 }) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -42,7 +42,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         <h3 className="text-lg font-semibold">{name}</h3>
         <p className="text-gray-600">{location}</p>
         <p className="text-gray-800">${price}</p>
-        <p className="text-gray-600">Listed on: {new Date(listingDate).toLocaleDateString()}</p>
+        <p className="text-gray-600">
+          Listed on: {new Date(listingDate).toLocaleDateString()}
+        </p>
         <p className="text-gray-600">Contact: {contact}</p>
         <div className="flex items-center">
           <span className="text-yellow-400">{`${rating.toFixed(1)} / 5`}</span>
@@ -50,7 +52,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PropertyCard;
+export default PropertyCard

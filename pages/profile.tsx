@@ -1,46 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import { getAuth, signOut } from 'firebase/auth';
-import { getDocs, query, collection, where } from 'firebase/firestore';
-import { db } from '../firebaseConfig';
-import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react'
+import { getAuth, signOut } from 'firebase/auth'
+import { getDocs, query, collection, where } from 'firebase/firestore'
+import { db } from '../firebaseConfig'
+import { useRouter } from 'next/router'
 
 const Profile: React.FC = () => {
-  const [user, setUser] = useState(null);
-  const [reviews, setReviews] = useState<any[]>([]);
-  const auth = getAuth();
-  const router = useRouter();
+  const [user, setUser] = useState(null)
+  const [reviews, setReviews] = useState<any[]>([])
+  const auth = getAuth()
+  const router = useRouter()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setUser(user);
-        fetchReviews(user.uid);
+        setUser(user)
+        fetchReviews(user.uid)
       } else {
-        router.push('/login');
+        router.push('/login')
       }
-    });
+    })
 
-    return () => unsubscribe();
-  }, [auth, router]);
+    return () => unsubscribe()
+  }, [auth, router])
 
   const fetchReviews = async (userId: string) => {
     try {
-      const q = query(collection(db, 'reviews'), where('userId', '==', userId));
-      const querySnapshot = await getDocs(q);
-      const fetchedReviews = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setReviews(fetchedReviews);
+      const q = query(collection(db, 'reviews'), where('userId', '==', userId))
+      const querySnapshot = await getDocs(q)
+      const fetchedReviews = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+      setReviews(fetchedReviews)
     } catch (error) {
-      console.error("Error fetching reviews: ", error);
+      console.error('Error fetching reviews: ', error)
     }
-  };
+  }
 
   const handleLogout = async () => {
-    await signOut(auth);
-    router.push('/login');
-  };
+    await signOut(auth)
+    router.push('/login')
+  }
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   return (
@@ -48,12 +51,17 @@ const Profile: React.FC = () => {
       <h1 className="text-2xl font-bold mb-4">Profile</h1>
       <div className="mb-4">
         <p className="text-lg font-semibold">Hello, {user.displayName}</p>
-        <button onClick={handleLogout} className="mt-2 p-2 bg-red-600 text-white rounded">Logout</button>
+        <button
+          onClick={handleLogout}
+          className="mt-2 p-2 bg-red-600 text-white rounded"
+        >
+          Logout
+        </button>
       </div>
       <h2 className="text-xl font-semibold mb-2">Your Reviews</h2>
       {reviews.length > 0 ? (
         <ul>
-          {reviews.map(review => (
+          {reviews.map((review) => (
             <li key={review.id} className="border-b py-2">
               <p className="font-semibold">Property ID: {review.propertyId}</p>
               <p>Rating: {review.rating}</p>
@@ -65,7 +73,7 @@ const Profile: React.FC = () => {
         <p>No reviews found.</p>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

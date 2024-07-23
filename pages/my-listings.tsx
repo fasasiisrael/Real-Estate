@@ -1,11 +1,11 @@
-import React from 'react';
-import { useAuth } from '../context/AuthContext';
-import PropertyList from '../components/PropertyList';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import React from 'react'
+import { useAuth } from '../context/AuthContext'
+import PropertyList from '../components/PropertyList'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const MyListingsPage: React.FC = () => {
-  const { user } = useAuth();
+  const { user } = useAuth()
 
   if (!user) {
     return (
@@ -16,7 +16,7 @@ const MyListingsPage: React.FC = () => {
         </main>
         <Footer />
       </div>
-    );
+    )
   }
 
   return (
@@ -27,7 +27,7 @@ const MyListingsPage: React.FC = () => {
       </main>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default MyListingsPage;
+export default MyListingsPage

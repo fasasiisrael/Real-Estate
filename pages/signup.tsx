@@ -1,7 +1,7 @@
-import React from 'react';
-import AuthForm from '../components/AuthForm';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import React from 'react'
+import AuthForm from '../components/AuthForm'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const SignupPage: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const SignupPage: React.FC = () => {
       </main>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default SignupPage;
+export default SignupPage

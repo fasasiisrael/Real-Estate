@@ -1,5 +1,11 @@
-import React from 'react';
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaGithub } from 'react-icons/fa';
+import React from 'react'
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedinIn,
+  FaGithub,
+} from 'react-icons/fa'
 
 const Footer: React.FC = () => {
   return (
@@ -9,12 +15,14 @@ const Footer: React.FC = () => {
         <div className="mb-4 md:mb-0">
           <h3 className="text-2xl font-bold mb-2">About Us</h3>
           <p className="text-gray-400">
-  We are a leading real estate company dedicated to helping you find your dream home.<br />
-  Our team of experts provides top-notch service and invaluable insights into the real estate market.
-</p>
-
+            We are a leading real estate company dedicated to helping you find
+            your dream home.
+            <br />
+            Our team of experts provides top-notch service and invaluable
+            insights into the real estate market.
+          </p>
         </div>
-        
+
         {/* Social Media Icons */}
         <div className="flex space-x-4 mb-4 md:mb-0">
           <a
@@ -59,13 +67,15 @@ const Footer: React.FC = () => {
           </a>
         </div>
       </div>
-      
+
       {/* Footer Bottom */}
       <div className="border-t border-gray-700 mt-4 pt-4 text-center text-gray-400">
-        <p>&copy; {new Date().getFullYear()} Fasasi Realty. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} Fasasi Realty. All rights reserved.
+        </p>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

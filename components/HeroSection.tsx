@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
 
 const HeroSection: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+    setIsMenuOpen(!isMenuOpen)
+  }
 
   return (
     <div className="relative bg-gray-900 text-white overflow-hidden">
@@ -14,7 +14,7 @@ const HeroSection: React.FC = () => {
       <div className="absolute inset-0">
         <img
           className="w-full h-full object-cover"
-          src="https://t4.ftcdn.net/jpg/07/08/02/45/360_F_708024524_bWZRZtk76J0cgExkfY3aMoFMSg9PKcfq.jpg" 
+          src="https://t4.ftcdn.net/jpg/07/08/02/45/360_F_708024524_bWZRZtk76J0cgExkfY3aMoFMSg9PKcfq.jpg"
           alt="Background"
         />
         <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -24,8 +24,12 @@ const HeroSection: React.FC = () => {
       <nav className="fixed top-0 left-0 w-full bg-transparent text-white py-4 px-6 flex justify-between items-center z-10">
         <div className="text-2xl font-bold">FR.</div>
         <div className="hidden md:flex space-x-4">
-          <a href="#" className="text-lg hover:underline">About Us</a>
-          <a href="#" className="text-lg hover:underline">Contact Us</a>
+          <a href="#" className="text-lg hover:underline">
+            About Us
+          </a>
+          <a href="#" className="text-lg hover:underline">
+            Contact Us
+          </a>
         </div>
         <div className="hidden md:flex space-x-4">
           <a
@@ -76,8 +80,12 @@ const HeroSection: React.FC = () => {
             &times;
           </button>
           <nav className="flex flex-col space-y-6 text-center">
-            <a href="#" className="text-lg text-white hover:underline">About Us</a>
-            <a href="#" className="text-lg text-white hover:underline">Contact Us</a>
+            <a href="#" className="text-lg text-white hover:underline">
+              About Us
+            </a>
+            <a href="#" className="text-lg text-white hover:underline">
+              Contact Us
+            </a>
             <a
               href="/login"
               className="px-4 py-2 border border-green-400 rounded-full text-green-400 hover:bg-green-100 transition duration-300"
@@ -105,7 +113,11 @@ const HeroSection: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <span className="block xl:inline"><br /><br />Welcome to </span>{' '}
+                <span className="block xl:inline">
+                  <br />
+                  <br />
+                  Welcome to{' '}
+                </span>{' '}
                 <span className="block text-green-400 xl:inline animate-wave">
                   Fasasi Realty
                 </span>
@@ -116,7 +128,8 @@ const HeroSection: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                Discover the best properties that fit your style and budget. Your dream home is just a click away.
+                Discover the best properties that fit your style and budget.
+                Your dream home is just a click away.
               </motion.p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">
@@ -141,7 +154,7 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default HeroSection;
+export default HeroSection

@@ -1,38 +1,41 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react'
+import axios from 'axios'
 
 interface ReviewFormProps {
-  propertyId: string;
-  onReviewSubmitted: () => void;
+  propertyId: string
+  onReviewSubmitted: () => void
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ propertyId, onReviewSubmitted }) => {
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
-  const [error, setError] = useState('');
+const ReviewForm: React.FC<ReviewFormProps> = ({
+  propertyId,
+  onReviewSubmitted,
+}) => {
+  const [rating, setRating] = useState(0)
+  const [comment, setComment] = useState('')
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token')
       if (!token) {
-        setError('You must be logged in to submit a review');
-        return;
+        setError('You must be logged in to submit a review')
+        return
       }
 
       await axios.post(
         '/api/reviews',
         { propertyId, rating, comment },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+        { headers: { Authorization: `Bearer ${token}` } },
+      )
 
-      setRating(0);
-      setComment('');
-      onReviewSubmitted();
+      setRating(0)
+      setComment('')
+      onReviewSubmitted()
     } catch (err) {
-      setError('Error submitting review');
+      setError('Error submitting review')
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} className="my-4">
@@ -60,7 +63,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ propertyId, onReviewSubmitted }
         Submit Review
       </button>
     </form>
-  );
-};
+  )
+}
 
-export default ReviewForm;
+export default ReviewForm
