@@ -177,7 +177,7 @@ const PropertyList: React.FC = () => {
           placeholder="Having a specific house or place in mind?"
           value={search}
           onChange={handleSearchChange}
-          className="p-2 border border-gray-400 rounded mb-4 w-2/5 transition-transform duration-300"
+          className="p-2 border border-green-400 rounded mb-4 w-2/5 transition-transform duration-300"
           onFocus={(e) => (e.target.placeholder = '')}
           onBlur={(e) =>
             (e.target.placeholder = 'Have a specific house or place in mind?')

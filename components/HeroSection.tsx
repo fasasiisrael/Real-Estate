@@ -1,12 +1,33 @@
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { getAuth } from 'firebase/auth';
+import { useRouter } from 'next/router';
 
 const HeroSection: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const auth = getAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleProfileClick = () => {
+    router.push('/profile');
+  };
 
   return (
     <div className="relative bg-gray-900 text-white overflow-hidden">
@@ -31,19 +52,34 @@ const HeroSection: React.FC = () => {
             Contact Us
           </a>
         </div>
-        <div className="hidden md:flex space-x-4">
-          <a
-            href="/login"
-            className="px-4 py-2 border border-green-400 rounded-full text-green-400 hover:bg-green-100 transition duration-300"
-          >
-            Log In
-          </a>
-          <a
-            href="/signup"
-            className="px-4 py-2 bg-green-400 rounded-full text-white hover:bg-white-400 hover:text-green-400 transition duration-300"
-          >
-            Sign Up
-          </a>
+        <div className="hidden md:flex space-x-4 items-center">
+          {user ? (
+            <div className="flex items-center space-x-2 cursor-pointer" onClick={handleProfileClick}>
+              <div className="w-10 h-10">
+                <img
+                  src={user.photoURL}
+                  alt="User profile"
+                  className="w-full h-full rounded-lg object-cover"
+                />
+              </div>
+              <span>{user.displayName}</span>
+            </div>
+          ) : (
+            <>
+              <a
+                href="/login"
+                className="px-4 py-2 border border-green-400 rounded-full text-green-400 hover:bg-green-100 transition duration-300"
+              >
+                Log In
+              </a>
+              <a
+                href="/signup"
+                className="px-4 py-2 bg-green-400 rounded-full text-white hover:bg-white hover:text-green-400 transition duration-300"
+              >
+                Sign Up
+              </a>
+            </>
+          )}
         </div>
         <div className="md:hidden flex items-center">
           <button onClick={toggleMenu} className="focus:outline-none">
@@ -86,18 +122,35 @@ const HeroSection: React.FC = () => {
             <a href="#" className="text-lg text-white hover:underline">
               Contact Us
             </a>
-            <a
-              href="/login"
-              className="px-4 py-2 border border-green-400 rounded-full text-green-400 hover:bg-green-100 transition duration-300"
-            >
-              Log In
-            </a>
-            <a
-              href="/signup"
-              className="px-4 py-2 bg-green-400 rounded-full text-white hover:bg-white-400 hover:text-green-400 transition duration-300"
-            >
-              Sign Up
-            </a>
+            {user ? (
+              <div className="flex flex-col items-center space-y-4">
+                <div className="w-10 h-10 cursor-pointer" onClick={handleProfileClick}>
+                  <img
+                    src={user.photoURL}
+                    alt="User profile"
+                    className="w-full h-full rounded-lg object-cover"
+                  />
+                </div>
+                <span className="text-lg text-white" onClick={handleProfileClick}>
+                  {user.displayName}
+                </span>
+              </div>
+            ) : (
+              <>
+                <a
+                  href="/login"
+                  className="px-4 py-2 border border-green-400 rounded-full text-green-400 hover:bg-green-100 transition duration-300"
+                >
+                  Log In
+                </a>
+                <a
+                  href="/signup"
+                  className="px-4 py-2 bg-green-400 rounded-full text-white hover:bg-white-400 hover:text-green-400 transition duration-300"
+                >
+                  Sign Up
+                </a>
+              </>
+            )}
           </nav>
         </motion.div>
       )}
@@ -154,7 +207,7 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HeroSection
+export default HeroSection;
