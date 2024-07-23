@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import PropertyCard from './PropertyCard'
-import Link from 'next/link'
-import { BsFillXCircleFill } from 'react-icons/bs' // Import close icon for the modal
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import PropertyCard from './PropertyCard';
+import Link from 'next/link';
+import { BsFillXCircleFill } from 'react-icons/bs'; // Import close icon for the modal
 
 const PropertyList: React.FC = () => {
-  const [properties, setProperties] = useState<any[]>([])
-  const [filteredProperties, setFilteredProperties] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [search, setSearch] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 99000 })
+  const [properties, setProperties] = useState<any[]>([]);
+  const [filteredProperties, setFilteredProperties] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 99000 });
   const [dateRange, setDateRange] = useState({
     min: '2000-03-25',
     max: '2024-09-25',
-  })
-  const [filterModalOpen, setFilterModalOpen] = useState(false)
-  const itemsPerPage = 8
+  });
+  const [filterModalOpen, setFilterModalOpen] = useState(false);
+  const itemsPerPage = 8;
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -25,7 +25,7 @@ const PropertyList: React.FC = () => {
         const response = await axios.post(
           'https://realty-in-us.p.rapidapi.com/properties/v3/list',
           {
-            limit: 200,
+            limit: 400,
             offset: 0,
             boundary: {
               coordinates: [
@@ -62,7 +62,7 @@ const PropertyList: React.FC = () => {
               'Content-Type': 'application/json',
             },
           },
-        )
+        );
 
         if (
           response.data &&
@@ -70,22 +70,22 @@ const PropertyList: React.FC = () => {
           response.data.data.home_search &&
           response.data.data.home_search.results
         ) {
-          const fetchedProperties = response.data.data.home_search.results
-          setProperties(fetchedProperties)
-          setFilteredProperties(fetchedProperties)
+          const fetchedProperties = response.data.data.home_search.results;
+          setProperties(fetchedProperties);
+          setFilteredProperties(fetchedProperties);
         } else {
-          throw new Error('Unexpected API response structure')
+          throw new Error('Unexpected API response structure');
         }
       } catch (err) {
-        console.error(err)
-        setError(err.message || 'Error fetching properties')
+        console.error(err);
+        setError(err.message || 'Error fetching properties');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchProperties()
-  }, [dateRange, priceRange])
+    fetchProperties();
+  }, [dateRange, priceRange]);
 
   useEffect(() => {
     // Filter properties based on search and current filters
@@ -93,71 +93,71 @@ const PropertyList: React.FC = () => {
       const result = properties.filter((property: any) => {
         const isInPriceRange =
           property.list_price >= priceRange.min &&
-          property.list_price <= priceRange.max
+          property.list_price <= priceRange.max;
         const isInDateRange =
           new Date(property.list_date) >= new Date(dateRange.min) &&
-          new Date(property.list_date) <= new Date(dateRange.max)
+          new Date(property.list_date) <= new Date(dateRange.max);
         const matchesSearch =
           property.description.type
             .toLowerCase()
             .includes(search.toLowerCase()) ||
           property.location.address.line
             .toLowerCase()
-            .includes(search.toLowerCase())
-        return isInPriceRange && isInDateRange && matchesSearch
-      })
-      setFilteredProperties(result)
-    }
+            .includes(search.toLowerCase());
+        return isInPriceRange && isInDateRange && matchesSearch;
+      });
+      setFilteredProperties(result);
+    };
 
-    applyFilters()
-  }, [search, priceRange, dateRange, properties])
+    applyFilters();
+  }, [search, priceRange, dateRange, properties]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
-  }
+    setSearch(e.target.value);
+  };
 
   const handleFilterClick = () => {
-    setFilterModalOpen(true)
-  }
+    setFilterModalOpen(true);
+  };
 
   const handleFilterClose = () => {
-    setFilterModalOpen(false)
-  }
+    setFilterModalOpen(false);
+  };
 
   const handleFilterApply = () => {
-    setFilterModalOpen(false)
-  }
+    setFilterModalOpen(false);
+  };
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPriceRange({ ...priceRange, [e.target.name]: Number(e.target.value) })
-  }
+    setPriceRange({ ...priceRange, [e.target.name]: Number(e.target.value) });
+  };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDateRange({ ...dateRange, [e.target.name]: e.target.value })
-  }
+    setDateRange({ ...dateRange, [e.target.name]: e.target.value });
+  };
 
-  const indexOfLastProperty = currentPage * itemsPerPage
-  const indexOfFirstProperty = indexOfLastProperty - itemsPerPage
+  const indexOfLastProperty = currentPage * itemsPerPage;
+  const indexOfFirstProperty = indexOfLastProperty - itemsPerPage;
   const currentProperties = filteredProperties.slice(
     indexOfFirstProperty,
     indexOfLastProperty,
-  )
+  );
 
-  const totalPages = Math.ceil(filteredProperties.length / itemsPerPage)
+  const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber)
-  }
+    setCurrentPage(pageNumber);
+  };
 
   const isNewListing = (listingDate: string) => {
-    const date = new Date(listingDate)
-    const now = new Date()
+    const date = new Date(listingDate);
+    const now = new Date();
     const diffInMonths =
       (now.getFullYear() - date.getFullYear()) * 12 +
       now.getMonth() -
-      date.getMonth()
-    return diffInMonths <= 17
-  }
+      date.getMonth();
+    return diffInMonths <= 17;
+  };
 
   return (
     <div className="relative p-4">
@@ -171,7 +171,7 @@ const PropertyList: React.FC = () => {
         }}
       ></div>
 
-      <div className="relative z-10 flex items-center">
+      <div className="relative z-10 flex items-center mb-8"> 
         <input
           type="text"
           placeholder="Having a specific house or place in mind?"
@@ -216,7 +216,7 @@ const PropertyList: React.FC = () => {
                 name="min"
                 value={priceRange.min}
                 onChange={handlePriceChange}
-                className="p-2 border border-gray-400 rounded mb-2 w-full"
+                className="p-2 border border-green-400 rounded mb-2 w-full"
                 placeholder="Min Price"
               />
               <input
@@ -224,7 +224,7 @@ const PropertyList: React.FC = () => {
                 name="max"
                 value={priceRange.max}
                 onChange={handlePriceChange}
-                className="p-2 border border-gray-400 rounded w-full"
+                className="p-2 border border-green-400 rounded w-full"
                 placeholder="Max Price"
               />
             </div>
@@ -250,7 +250,7 @@ const PropertyList: React.FC = () => {
             <div className="flex justify-end">
               <button
                 onClick={handleFilterApply}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
+                className="px-4 py-2 bg-green-400 text-white rounded"
               >
                 Apply Filters
               </button>
@@ -325,10 +325,10 @@ const PropertyList: React.FC = () => {
         </div>
       )}
       {error && <p>Error loading properties: {error}</p>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16"> 
         {currentProperties.map((property: any) => {
-          const listingDate = property.list_date || ''
-          const isNew = isNewListing(listingDate)
+          const listingDate = property.list_date || '';
+          const isNew = isNewListing(listingDate);
 
           return (
             <Link
@@ -362,13 +362,13 @@ const PropertyList: React.FC = () => {
                 )}
               </a>
             </Link>
-          )
+          );
         })}
       </div>
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="mt-4 flex justify-center items-center space-x-2 w-3/5 mx-auto">
+        <div className="relative bottom-4 inset-x-0 flex justify-center items-center space-x-2 z-20 w-3/5 mx-auto mb-8"> 
           <button
             onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
             className="px-4 py-2 border rounded-lg bg-white text-green-600 hover:bg-gray-100 transition duration-300"
@@ -389,7 +389,7 @@ const PropertyList: React.FC = () => {
               </>
             )}
             {Array.from({ length: Math.min(3, totalPages) }).map((_, index) => {
-              const pageNumber = Math.min(index + 1, totalPages)
+              const pageNumber = Math.min(index + 1, totalPages);
               return (
                 <button
                   key={pageNumber}
@@ -398,7 +398,7 @@ const PropertyList: React.FC = () => {
                 >
                   {pageNumber}
                 </button>
-              )
+              );
             })}
             {totalPages > 4 && currentPage < totalPages - 3 && (
               <>
@@ -424,7 +424,7 @@ const PropertyList: React.FC = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default PropertyList
+export default PropertyList;
